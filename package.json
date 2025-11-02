@@ -1,0 +1,103 @@
+{
+  "name": "galirus-bot",
+  "version": "3.0.0",
+  "description": "WhatsApp Bot GALIRUS dengan Web Pairing System dan Fitur Downloader YouTube/TikTok",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "while true; do node index.js; echo '🔄 Restarting...'; sleep 1; done",
+    "hot-reload": "node index.js",
+    "monitor": "node index.js",
+    "pairing": "node index.js --pairing",
+    "clean": "rm -rf sessions files/downloads",
+    "setup": "pkg update && pkg install python ffmpeg -y && pip install yt-dlp",
+    "install-all": "npm install && npm run setup",
+    "check-deps": "node -e \"import('child_process').then(({exec}) => exec('which yt-dlp', (e,s) => console.log(e?'yt-dlp not installed':'yt-dlp ready')))\"",
+    "fix-permission": "chmod -R 755 sessions files",
+    "test": "echo \"No tests specified\" && exit 0",
+    "backup": "tar -czf backup_$(date +%Y%m%d).tar.gz sessions files package.json",
+    "restore": "tar -xzf backup_*.tar.gz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lubebansokhekel/galirus-bot.git"
+  },
+  "keywords": [
+    "whatsapp-bot",
+    "baileys",
+    "whatsapp-api",
+    "automation",
+    "downloader",
+    "youtube-downloader",
+    "tiktok-downloader",
+    "web-pairing",
+    "express",
+    "nodejs",
+    "galirus",
+    "whatsapp-bot",
+    "baileys",
+    "hot-reload"
+  ],
+  "author": {
+    "name": "GALIRUS",
+    "email": "galirus@proton.me",
+    "url": "https://github.com/Lubebansokhekel"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lubebansokhekel/galirus-bot/issues",
+    "email": "galirus@proton.me"
+  },
+  "homepage": "https://github.com/Lubebansokhekel/galirus-bot#readme",
+  "funding": {
+    "type": "individual",
+    "url": "https://saweria.co/galirus"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "7.0.0-rc.6",
+    "axios": "^1.8.2",
+    "chalk": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "body-parser": "^1.20.3",
+    "moment-timezone": "^0.5.47",
+    "pino": "^8.19.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^4.11.5",
+    "tiktok-scraper": "^3.0.0",
+    "form-data": "^4.0.0",
+    "node-cron": "^3.0.3",
+    "qrcode-terminal": "^0.12.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.33.2",
+    "uuid": "^9.0.1",
+    "node-fetch": "^3.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "valid-url": "^1.0.9",
+    "mime-types": "^2.1.35",
+    "archiver": "^5.3.1",
+    "unzipper": "^0.10.14"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "os": [
+    "android",
+    "linux",
+    "darwin"
+  ],
+  "cpu": [
+    "arm64",
+    "x64",
+    "arm"
+  ],
+  "private": true,
+  "contributors": [
+    "GALIRUS <galirus@proton.me>"
+  ]
+}
