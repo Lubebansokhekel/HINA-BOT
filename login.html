@@ -1,601 +1,1049 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔐 BAN WHATSAPP - GALIRUS BOT</title>
-<style>
-    body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-        position: relative;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 HINA BOT - Dual Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* Animasi latar belakang */
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-            radial-gradient(circle at 20% 30%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
-        z-index: -1;
-    }
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
 
-    .container {
-        background: rgba(0, 0, 0, 0.7);
-        backdrop-filter: blur(10px);
-        padding: 2rem 2.5rem;
-        border-radius: 1.5rem;
-        box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-        width: 100%;
-        max-width: 500px;
-        text-align: center;
-        border: 2px solid rgba(255, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    .container::before {
-        content: "";
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        right: -10px;
-        bottom: -10px;
-        background: linear-gradient(45deg, #ff0000, #ff3333, #ff6666, #ff9999, #ff6666, #ff3333, #ff0000);
-        background-size: 400% 400%;
-        z-index: -1;
-        animation: gradientShift 3s ease infinite;
-        border-radius: 1.8rem;
-        opacity: 0.3;
-    }
+        /* Dynamic Background */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            transition: background-image 1.5s ease-in-out;
+        }
 
-    @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.9) 0%, 
+                rgba(30, 41, 59, 0.8) 50%, 
+                rgba(15, 23, 42, 0.9) 100%);
+            z-index: -1;
+        }
 
-    .header {
-        margin-bottom: 1.5rem;
-        position: relative;
-    }
+        .floating-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    h1 {
-        margin-bottom: 0.5rem;
-        color: #ff3333;
-        letter-spacing: 1px;
-        font-size: 2rem;
-        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    }
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
 
-    .subtitle {
-        font-size: 1.2rem;
-        color: #ff6666;
-        margin-bottom: 0.5rem;
-    }
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
 
-    .tagline {
-        font-size: 1rem;
-        color: #ff9999;
-        margin-bottom: 1rem;
-        font-weight: bold;
-    }
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
 
-    .badge {
-        display: inline-block;
-        background: linear-gradient(45deg, #ff0000, #ff3333);
-        color: white;
-        padding: 0.3rem 0.8rem;
-        border-radius: 1rem;
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    }
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
 
-    .features {
-        display: flex;
-        justify-content: space-around;
-        margin: 1.5rem 0;
-        flex-wrap: wrap;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
 
-    .feature {
-        background: rgba(255, 0, 0, 0.1);
-        border: 1px solid rgba(255, 0, 0, 0.3);
-        border-radius: 0.5rem;
-        padding: 0.7rem;
-        margin: 0.3rem;
-        flex: 1;
-        min-width: 120px;
-        font-size: 0.8rem;
-    }
+        .container {
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.4),
+                0 0 100px rgba(99, 102, 241, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
 
-    .feature i {
-        display: block;
-        font-size: 1.2rem;
-        margin-bottom: 0.3rem;
-    }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: gradientShift 3s ease infinite;
+        }
 
-    input {
-        width: 100%;
-        padding: 0.8rem;
-        border-radius: 0.5rem;
-        border: 2px solid rgba(255, 0, 0, 0.3);
-        outline: none;
-        font-size: 1rem;
-        margin: 1rem 0;
-        text-align: center;
-        box-sizing: border-box;
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        transition: all 0.3s ease;
-    }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    input:focus {
-        border-color: #ff3333;
-        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    button {
-        width: 100%;
-        padding: 0.8rem;
-        border: none;
-        border-radius: 0.5rem;
-        background: linear-gradient(45deg, #ff0000, #ff3333);
-        color: white;
-        font-weight: bold;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-bottom: 1rem;
-        box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
+        .logo-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+        }
 
-    button::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: 0.5s;
-    }
+        .logo-gif {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 
+                0 10px 30px rgba(99, 102, 241, 0.4),
+                0 0 50px rgba(99, 102, 241, 0.2);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
 
-    button:hover:not(:disabled) {
-        transform: scale(1.03);
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-    }
-
-    button:hover:not(:disabled)::before {
-        left: 100%;
-    }
-
-    button:disabled {
-        background: #555555;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-    .notif {
-        margin-top: 1rem;
-        padding: 0.8rem;
-        border-radius: 0.5rem;
-        display: none;
-        font-weight: bold;
-    }
-
-    .notif.success {
-        background: rgba(0, 255, 0, 0.1);
-        color: #00ff00;
-        border: 1px solid #00ff00;
-    }
-
-    .notif.error {
-        background: rgba(255, 0, 0, 0.2);
-        color: #ff8080;
-        border: 1px solid #ff8080;
-    }
-
-    .notif.info {
-        background: rgba(255, 255, 0, 0.1);
-        color: #ffff00;
-        border: 1px solid #ffff00;
-    }
-
-    .kode-container {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background: rgba(255, 0, 0, 0.1);
-        border-radius: 0.5rem;
-        border: 2px solid #ff3333;
-        display: none;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .kode-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(45deg, transparent, rgba(255, 0, 0, 0.1), transparent);
-        animation: shimmer 2s infinite;
-    }
-
-    @keyframes shimmer {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-    }
-
-    .kode-label {
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-        color: #ff3333;
-    }
-
-    .kode {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #fff;
-        letter-spacing: 3px;
-        font-family: monospace;
-        text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-    }
-
-    .instruksi {
-        margin-top: 1rem;
-        font-size: 0.8rem;
-        color: #ff9999;
-        text-align: left;
-        background: rgba(255, 0, 0, 0.1);
-        padding: 0.8rem;
-        border-radius: 0.5rem;
-        display: none;
-        border: 1px solid rgba(255, 0, 0, 0.3);
-    }
-
-    .status-bot {
-        margin-top: 1rem;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        font-size: 0.9rem;
-        background: rgba(255, 0, 0, 0.1);
-        border: 1px solid rgba(255, 0, 0, 0.3);
-    }
-
-    .status-connected {
-        color: #00ff00;
-    }
-
-    .status-disconnected {
-        color: #ff8080;
-    }
-
-    .port-info {
-        margin-top: 0.5rem;
-        font-size: 0.8rem;
-        color: #ff3333;
-        background: rgba(255, 0, 0, 0.1);
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        border: 1px solid rgba(255, 0, 0, 0.3);
-    }
-
-    .port-error {
-        color: #ff8080;
-        background: rgba(255, 0, 0, 0.2);
-    }
-
-    .warning {
-        background: rgba(255, 0, 0, 0.2);
-        border: 1px solid rgba(255, 0, 0, 0.5);
-        border-radius: 0.5rem;
-        padding: 0.8rem;
-        margin: 1rem 0;
-        font-size: 0.8rem;
-        color: #ff9999;
-    }
-
-    footer {
-        margin-top: 2rem;
-        font-size: 0.9rem;
-        color: #ff9999;
-    }
-
-    footer span {
-        color: #ff3333;
-        font-weight: bold;
-    }
-</style>
-</head>
-<body>
-<div class="container">
-    <div class="header">
-        <h1>🚫 BAN WHATSAPP</h1>
-        <div class="subtitle">GALIRUS BOT 🤖</div>
-        <div class="tagline">TAKUTKAN WHATSAPP ANDA DENGAN FITUR BAN!</div>
-        <div class="badge">GRATIS 100% • TANPA BIAYA</div>
-    </div>
-    
-    <div class="features">
-        <div class="feature">
-            <i>🚫</i>
-            <div>BAN AKUN</div>
-        </div>
-        <div class="feature">
-            <i>🔒</i>
-            <div>BLOKIR GRUP</div>
-        </div>
-        <div class="feature">
-            <i>⚡</i>
-            <div>INSTANT</div>
-        </div>
-        <div class="feature">
-            <i>🛡️</i>
-            <div>AMAN</div>
-        </div>
-    </div>
-    
-    <div class="warning">
-        ⚠️ <strong>PERINGATAN:</strong> Dengan menghubungkan WhatsApp Anda ke server ini, Anda setuju untuk menggunakan fitur Ban WhatsApp secara GRATIS. Server ini TIDAK bertanggung jawab atas segala kerugian yang timbul.
-    </div>
-    
-    <p>Sambungkan WhatsApp Anda sekarang dan nikmati kekuatan BAN!</p>
-    
-    <div id="portInfo" class="port-info">
-        🔍 Mencari server...
-    </div>
-    
-    <input type="text" id="nomor" placeholder="Contoh: 628123456789" maxlength="15" />
-    <button id="pairBtn" disabled>🚫 TAKUTKAN WHATSAPP SAYA!</button>
-    
-    <div id="notif" class="notif"></div>
-    
-    <div id="kodeContainer" class="kode-container">
-        <div class="kode-label">KODE BAN WHATSAPP:</div>
-        <div id="kode" class="kode"></div>
-    </div>
-    
-    <div id="instruksi" class="instruksi">
-        <strong>📝 Cara menggunakan FITUR BAN:</strong><br>
-        1. Buka WhatsApp di HP<br>
-        2. Tap ⋮ (titik tiga) → Linked Devices<br>
-        3. Tap "Link a Device"<br>
-        4. Masukkan kode BAN di atas<br>
-        5. WhatsApp Anda sekarang TERHUBUNG ke server BAN!
-    </div>
-    
-    <div id="statusBot" class="status-bot">
-        Status Bot: <span id="statusText">Mengecek...</span>
-    </div>
-    
-    <footer>Made with ☕ by <span>GALIRUS</span></footer>
-</div>
-
-<script>
-// Variabel untuk menyimpan base URL
-let API_BASE_URL = '';
-let currentPort = null;
-
-// Daftar port yang mungkin digunakan
-const POSSIBLE_PORTS = [7923, 7924, 7925, 7926, 7927, 7928];
-
-// Fungsi untuk detect port yang digunakan
-async function detectServerPort() {
-    const portInfo = document.getElementById('portInfo');
-    
-    // Coba baca dari file port.txt dulu (jika ada)
-    try {
-        const response = await fetch('/port.txt');
-        if (response.ok) {
-            const portFromFile = await response.text();
-            const port = parseInt(portFromFile);
-            if (POSSIBLE_PORTS.includes(port)) {
-                await testPort(port);
-                if (API_BASE_URL) return true;
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 
+                    0 10px 30px rgba(99, 102, 241, 0.4),
+                    0 0 50px rgba(99, 102, 241, 0.2);
+            }
+            to {
+                box-shadow: 
+                    0 15px 40px rgba(99, 102, 241, 0.6),
+                    0 0 80px rgba(99, 102, 241, 0.4);
             }
         }
-    } catch (error) {
-        // Continue to port scanning
-    }
-    
-    // Scan semua port yang mungkin
-    portInfo.textContent = '🔍 Scanning port...';
-    
-    for (const port of POSSIBLE_PORTS) {
-        const success = await testPort(port);
-        if (success) {
-            return true;
-        }
-    }
-    
-    // Jika tidak ada yang berhasil
-    portInfo.textContent = '❌ Server BAN tidak ditemukan. Pastikan bot sedang running!';
-    portInfo.className = 'port-info port-error';
-    return false;
-}
 
-// Test koneksi ke port tertentu
-async function testPort(port) {
-    try {
-        const response = await fetch(`http://localhost:${port}/api/port`, {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' }
+        .logo-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .tagline {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 6px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .qr-container {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .qr-code {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 1.5rem;
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-placeholder {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .qr-instructions {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .qr-instructions ol {
+            padding-left: 1.3rem;
+            margin: 0.7rem 0;
+        }
+
+        .qr-instructions li {
+            margin-bottom: 0.4rem;
+            color: var(--gray);
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        .pairing-form {
+            padding: 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.7rem;
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 0.92rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        input::placeholder {
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--primary);
+            color: white;
+        }
+
+        .status-container {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            border-left: 5px solid var(--primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            padding: 0.5rem 0;
+        }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: var(--gray);
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .status-value {
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .status-connected {
+            color: var(--secondary);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .status-disconnected {
+            color: var(--danger);
+        }
+
+        .status-loading {
+            color: var(--accent);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.7);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.7rem;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.3));
+        }
+
+        .feature-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .notification {
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin: 1.2rem 0;
+            display: none;
+            animation: slideIn 0.4s ease;
+            border-left: 5px solid;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .notification.success {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .notification.error {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .notification.info {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .pairing-code-container {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-top: 1.5rem;
+            text-align: center;
+            border: 2px dashed var(--primary);
+            display: none;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+            to { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+        }
+
+        .code-display {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 0.4rem;
+            color: var(--primary);
+            margin: 1.2rem 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .refresh-btn {
+            margin-top: 1.2rem;
+            padding: 0.8rem 1.8rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        .refresh-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: var(--gray);
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .qr-code {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .code-display {
+                font-size: 1.8rem;
+                letter-spacing: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dynamic Background Container -->
+    <div class="background-container" id="backgroundContainer">
+        <div class="background-overlay"></div>
+    </div>
+
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <video class="logo-gif" autoplay loop muted playsinline>
+                    <source src="https://od.lk/s/OV8yNTU5MTI3NTFf/menu_gif.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="logo-ring"></div>
+            </div>
+            <h1>HINA BOT</h1>
+            <div class="subtitle">Advanced WhatsApp Automation</div>
+            <div class="tagline">Powered by Galirus Official</div>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="tab active" data-tab="qr">QR Code</div>
+            <div class="tab" data-tab="pairing">Pairing Code</div>
+        </div>
+
+        <div id="notification" class="notification"></div>
+
+        <!-- QR Code Tab -->
+        <div class="tab-content active" id="qr-tab">
+            <div class="qr-container">
+                <div class="qr-code" id="qrCodeDisplay">
+                    <div class="qr-placeholder" id="qrPlaceholder">
+                        🔄 Generating QR Code...
+                    </div>
+                </div>
+                <button class="btn" id="refreshQrBtn">
+                    <span>🔄 Refresh QR Code</span>
+                </button>
+                
+                <div class="qr-instructions">
+                    <strong>📱 How to Connect:</strong>
+                    <ol>
+                        <li>Open WhatsApp on your phone</li>
+                        <li>Tap ⋮ (Menu) → Linked Devices</li>
+                        <li>Tap "Link a Device"</li>
+                        <li>Scan the QR code above</li>
+                        <li>Wait for connection confirmation</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pairing Code Tab -->
+        <div class="tab-content" id="pairing-tab">
+            <div class="pairing-form">
+                <div class="form-group">
+                    <label for="phoneNumber">📞 WhatsApp Number</label>
+                    <input 
+                        type="text" 
+                        id="phoneNumber" 
+                        placeholder="Example: 628123456789"
+                        maxlength="15"
+                    >
+                </div>
+                
+                <button class="btn" id="generatePairingBtn">
+                    <span>🔑 Generate Pairing Code</span>
+                </button>
+
+                <div class="pairing-code-container" id="pairingCodeContainer">
+                    <div class="code-display" id="pairingCodeDisplay"></div>
+                    <div style="color: var(--gray); font-size: 0.9rem; margin-bottom: 1.2rem; font-weight: 500;">
+                        ⏰ This code will expire in 60 seconds
+                    </div>
+                    <button class="refresh-btn" id="refreshPairingBtn">
+                        🔄 Generate New Code
+                    </button>
+                </div>
+
+                <div class="qr-instructions">
+                    <strong>📝 Pairing Instructions:</strong>
+                    <ol>
+                        <li>Enter your WhatsApp number (start with 62)</li>
+                        <li>Click "Generate Pairing Code"</li>
+                        <li>Open WhatsApp on your phone</li>
+                        <li>Go to Menu → Linked Devices</li>
+                        <li>Tap "Link a Device" and enter the code</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🤖</span>
+                <div class="feature-text">AI Auto Reply</div>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <div class="feature-text">Fast Response</div>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔒</span>
+                <div class="feature-text">Secure Connection</div>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🌐</span>
+                <div class="feature-text">Cloud Powered</div>
+            </div>
+        </div>
+
+        <div class="status-container">
+            <div class="status-item">
+                <span class="status-label">Bot Status:</span>
+                <span class="status-value" id="botStatus">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Server:</span>
+                <span class="status-value" id="serverStatus">Connecting...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Uptime:</span>
+                <span class="status-value" id="uptimeStatus">--</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; 2024 HINA BOT • Made with ❤️ by <a href="https://github.com/Lubebansokhekel" target="_blank">Galirus Official</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let API_BASE_URL = '';
+        let currentPort = null;
+        let qrRefreshInterval = null;
+        let statusUpdateInterval = null;
+        let backgroundInterval = null;
+
+        const POSSIBLE_PORTS = [3000, 3001, 3002, 3003, 3004, 3005, 7923, 7924, 7925];
+
+        // Random background images
+        const backgroundImages = [
+            'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1550684376-efcbd6e3f031?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1505506874110-6a7a69069a08?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1532274402911-5a369e4c4bb5?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-4.0.3&w=1200',
+            'https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?ixlib=rb-4.0.3&w=1200'
+        ];
+
+        // Background rotation function
+        function rotateBackground() {
+            const container = document.getElementById('backgroundContainer');
+            const randomImage = backgroundImages[Math.floor(Math.random() * backgroundImages.length)];
+            
+            container.style.backgroundImage = `url('${randomImage}')`;
+            container.style.backgroundSize = 'cover';
+            container.style.backgroundPosition = 'center';
+            container.style.backgroundRepeat = 'no-repeat';
+        }
+
+        // Initialize background rotation
+        function initBackgroundRotation() {
+            rotateBackground(); // Set initial background
+            backgroundInterval = setInterval(rotateBackground, 8000); // Change every 8 seconds
+        }
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                
+                // If switching to QR tab, start QR refresh
+                if (tab.dataset.tab === 'qr') {
+                    startQrRefresh();
+                }
+            });
         });
-        
-        if (response.ok) {
-            const data = await response.json();
-            API_BASE_URL = `http://localhost:${data.port}`;
-            currentPort = data.port;
+
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
             
-            document.getElementById('portInfo').textContent = `✅ Terhubung ke server BAN (port ${data.port})`;
-            document.getElementById('pairBtn').disabled = false;
+            // Auto hide after 5 seconds for success/info, 8 seconds for errors
+            const hideTime = type === 'error' ? 8000 : 5000;
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, hideTime);
+        }
+
+        // Server detection
+        async function detectServerPort() {
+            const serverStatus = document.getElementById('serverStatus');
             
-            console.log(`✅ Server BAN ditemukan di port ${data.port}`);
-            return true;
+            // Try reading from port.txt first
+            try {
+                const response = await fetch('/port.txt');
+                if (response.ok) {
+                    const portFromFile = await response.text();
+                    const port = parseInt(portFromFile);
+                    if (POSSIBLE_PORTS.includes(port)) {
+                        const success = await testPort(port);
+                        if (success) return true;
+                    }
+                }
+            } catch (error) {
+                console.log('Port file not found, scanning ports...');
+            }
+            
+            // Scan all possible ports
+            serverStatus.textContent = 'Scanning ports...';
+            serverStatus.className = 'status-value status-loading';
+            
+            for (const port of POSSIBLE_PORTS) {
+                const success = await testPort(port);
+                if (success) {
+                    return true;
+                }
+            }
+            
+            // If no port found
+            serverStatus.textContent = 'Server not found';
+            serverStatus.className = 'status-value status-disconnected';
+            return false;
         }
-    } catch (error) {
-        // Port tidak aktif, continue ke berikutnya
-    }
-    return false;
-}
 
-// Fungsi untuk update status bot
-async function updateStatus() {
-    if (!API_BASE_URL) {
-        const detected = await detectServerPort();
-        if (!detected) return;
-    }
-    
-    try {
-        const res = await fetch(`${API_BASE_URL}/status`);
-        const data = await res.json();
-        
-        const statusText = document.getElementById('statusText');
-        const statusBot = document.getElementById('statusBot');
-        
-        if (data.connected) {
-            statusText.textContent = '✅ TERHUBUNG KE SERVER BAN';
-            statusBot.className = 'status-bot status-connected';
-        } else if (data.isPairing) {
-            statusText.textContent = '⏳ SEDANG MENGHUBUNGKAN KE SERVER BAN...';
-            statusBot.className = 'status-bot status-disconnected';
-        } else if (data.isReconnecting) {
-            statusText.textContent = '🔄 MENGUBAH KONEKSI BAN...';
-            statusBot.className = 'status-bot status-disconnected';
-        } else {
-            statusText.textContent = '❌ TERPUTUS DARI SERVER BAN';
-            statusBot.className = 'status-bot status-disconnected';
+        async function testPort(port) {
+            try {
+                const response = await fetch(`http://localhost:${port}/api/port`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    API_BASE_URL = `http://localhost:${data.port}`;
+                    currentPort = data.port;
+                    
+                    document.getElementById('serverStatus').textContent = `Port ${data.port}`;
+                    document.getElementById('serverStatus').className = 'status-value status-connected';
+                    
+                    console.log(`✅ Server found at port ${data.port}`);
+                    return true;
+                }
+            } catch (error) {
+                // Port not active, continue to next
+            }
+            return false;
         }
-    } catch (error) {
-        document.getElementById('statusText').textContent = '❌ ERROR SERVER BAN';
-        // Coba detect ulang jika error
-        API_BASE_URL = '';
-        await detectServerPort();
-    }
-}
 
-// Initialize saat page load
-document.addEventListener('DOMContentLoaded', async function() {
-    const success = await detectServerPort();
-    if (success) {
-        updateStatus();
-        setInterval(updateStatus, 3000);
-    }
-});
-
-document.getElementById("pairBtn").addEventListener("click", async () => {
-    // Pastikan sudah detect port
-    if (!API_BASE_URL) {
-        const detected = await detectServerPort();
-        if (!detected) {
-            showNotif("❌ Tidak dapat terhubung ke SERVER BAN", "error");
-            return;
+        // QR Code functionality
+        async function fetchQrCode() {
+            if (!API_BASE_URL) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/qr`);
+                const data = await response.json();
+                
+                const qrCodeDisplay = document.getElementById('qrCodeDisplay');
+                const qrPlaceholder = document.getElementById('qrPlaceholder');
+                
+                if (data.connected) {
+                    qrPlaceholder.innerHTML = '✅<br>Connected!';
+                    qrPlaceholder.style.color = '#10b981';
+                    qrPlaceholder.style.fontWeight = '600';
+                    stopQrRefresh();
+                } else if (data.qr) {
+                    qrCodeDisplay.innerHTML = `<img src="${data.qr}" alt="QR Code" style="width: 100%; height: 100%; border-radius: 8px;">`;
+                    qrPlaceholder.style.display = 'none';
+                } else {
+                    qrPlaceholder.innerHTML = '⏳<br>Generating QR...';
+                    qrPlaceholder.style.color = '#f59e0b';
+                }
+            } catch (error) {
+                console.error('Error fetching QR code:', error);
+                document.getElementById('qrPlaceholder').innerHTML = '❌<br>Error loading QR';
+                document.getElementById('qrPlaceholder').style.color = '#ef4444';
+            }
         }
-    }
 
-    const nomor = document.getElementById("nomor").value.trim();
-    const notif = document.getElementById("notif");
-    const kodeContainer = document.getElementById("kodeContainer");
-    const kodeBox = document.getElementById("kode");
-    const instruksi = document.getElementById("instruksi");
-    const pairBtn = document.getElementById("pairBtn");
+        function startQrRefresh() {
+            if (qrRefreshInterval) clearInterval(qrRefreshInterval);
+            fetchQrCode(); // Initial fetch
+            qrRefreshInterval = setInterval(fetchQrCode, 5000); // Refresh every 5 seconds
+        }
 
-    // Reset tampilan
-    notif.style.display = "none";
-    kodeContainer.style.display = "none";
-    instruksi.style.display = "none";
+        function stopQrRefresh() {
+            if (qrRefreshInterval) {
+                clearInterval(qrRefreshInterval);
+                qrRefreshInterval = null;
+            }
+        }
 
-    // Validasi input
-    if (!nomor) {
-        showNotif("❌ Nomor tidak boleh kosong!", "error");
-        return;
-    }
+        // Pairing functionality
+        document.getElementById('generatePairingBtn').addEventListener('click', async () => {
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const generateBtn = document.getElementById('generatePairingBtn');
+            
+            if (!phoneNumber) {
+                showNotification('Please enter your WhatsApp number', 'error');
+                return;
+            }
 
-    if (!nomor.startsWith('62')) {
-        showNotif("❌ Nomor harus diawali dengan 62 (Indonesia)", "error");
-        return;
-    }
+            if (!phoneNumber.startsWith('62')) {
+                showNotification('Number must start with 62 (Indonesia)', 'error');
+                return;
+            }
 
-    if (nomor.length < 10) {
-        showNotif("❌ Nomor terlalu pendek", "error");
-        return;
-    }
+            if (phoneNumber.length < 10) {
+                showNotification('Phone number is too short', 'error');
+                return;
+            }
 
-    // Disable button selama proses
-    pairBtn.disabled = true;
-    pairBtn.textContent = "⏳ MENGHUBUNGKAN KE SERVER BAN...";
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '<span>⏳ Generating...</span>';
 
-    try {
-        showNotif("⏳ Menghubungkan ke SERVER BAN...", "info");
+            try {
+                const response = await fetch(`${API_BASE_URL}/pairing`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nomor: phoneNumber })
+                });
 
-        const res = await fetch(`${API_BASE_URL}/pairing`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nomor })
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('pairingCodeDisplay').textContent = data.kode;
+                    document.getElementById('pairingCodeContainer').style.display = 'block';
+                    showNotification('Pairing code generated successfully!', 'success');
+                    
+                    // Auto hide pairing code after 60 seconds
+                    setTimeout(() => {
+                        document.getElementById('pairingCodeContainer').style.display = 'none';
+                    }, 60000);
+                } else {
+                    throw new Error(data.error || 'Failed to generate pairing code');
+                }
+            } catch (error) {
+                showNotification(error.message, 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<span>🔑 Generate Pairing Code</span>';
+            }
         });
 
-        const data = await res.json();
+        document.getElementById('refreshPairingBtn').addEventListener('click', () => {
+            document.getElementById('generatePairingBtn').click();
+        });
 
-        if (data.success) {
-            showNotif("✅ WhatsApp Anda sekarang TERHUBUNG ke SERVER BAN!", "success");
-            kodeBox.textContent = data.kode;
-            kodeContainer.style.display = "block";
-            instruksi.style.display = "block";
+        document.getElementById('refreshQrBtn').addEventListener('click', () => {
+            fetchQrCode();
+            showNotification('QR Code refreshed', 'info');
+        });
+
+        // Status update functionality
+        async function updateStatus() {
+            if (!API_BASE_URL) return;
             
-            // Auto refresh status setelah pairing
-            setTimeout(updateStatus, 2000);
-        } else {
-            throw new Error(data.error || "Gagal menghubungkan ke SERVER BAN");
+            try {
+                const response = await fetch(`${API_BASE_URL}/status`);
+                const data = await response.json();
+                
+                const botStatus = document.getElementById('botStatus');
+                const uptimeStatus = document.getElementById('uptimeStatus');
+                
+                if (data.connected) {
+                    botStatus.textContent = 'Connected';
+                    botStatus.className = 'status-value status-connected';
+                } else if (data.isPairing || data.hasQr) {
+                    botStatus.textContent = 'Waiting for connection...';
+                    botStatus.className = 'status-value status-loading';
+                } else {
+                    botStatus.textContent = 'Disconnected';
+                    botStatus.className = 'status-value status-disconnected';
+                }
+                
+                uptimeStatus.textContent = data.uptime || '--';
+                
+            } catch (error) {
+                document.getElementById('botStatus').textContent = 'Connection error';
+                document.getElementById('botStatus').className = 'status-value status-disconnected';
+            }
         }
-    } catch (error) {
-        showNotif(`❌ ${error.message}`, "error");
-    } finally {
-        // Enable button kembali
-        pairBtn.disabled = false;
-        pairBtn.textContent = "🚫 TAKUTKAN WHATSAPP SAYA!";
-    }
-});
 
-function showNotif(message, type) {
-    const notif = document.getElementById("notif");
-    notif.textContent = message;
-    notif.className = `notif ${type}`;
-    notif.style.display = "block";
-}
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Start background rotation
+            initBackgroundRotation();
+            
+            showNotification('Initializing HINA BOT...', 'info');
+            
+            const success = await detectServerPort();
+            if (success) {
+                showNotification('Server connected successfully!', 'success');
+                startQrRefresh();
+                updateStatus();
+                statusUpdateInterval = setInterval(updateStatus, 3000);
+            } else {
+                showNotification('Failed to connect to server. Please make sure the bot is running.', 'error');
+            }
+        });
 
-// Enter key support
-document.getElementById("nomor").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        document.getElementById("pairBtn").click();
-    }
-});
+        // Enter key support for phone number input
+        document.getElementById('phoneNumber').addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                document.getElementById('generatePairingBtn').click();
+            }
+        });
 
-// Auto refresh port detection setiap 10 detik
-setInterval(async () => {
-    if (!API_BASE_URL) {
-        await detectServerPort();
-    }
-}, 10000);
-</script>
+        // Auto server detection every 30 seconds if not connected
+        setInterval(async () => {
+            if (!API_BASE_URL) {
+                await detectServerPort();
+            }
+        }, 30000);
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            stopQrRefresh();
+            if (statusUpdateInterval) clearInterval(statusUpdateInterval);
+            if (backgroundInterval) clearInterval(backgroundInterval);
+        });
+    </script>
 </body>
 </html>
